@@ -24,7 +24,7 @@
 
     <div class="card" style="border-radius: 10px;">
         <div class="card-body">
-            <h2>List Paket <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Paket</button></h2>
+            <h2>List Kategori <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Kategori</button></h2>
             <hr class="my-2">
 
             <div class="m-10">
@@ -32,13 +32,9 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Kategori</td>
                             <td>Nama</td>
                             <td>Deskripsi</td>
-                            <td>Harga</td>
-                            <td>DP</td>
-                            <td>Durasi</td>
-                            <td>Jadwal</td>
+                            <td>Materi</td>
                             <td>Status</td>
                             <td>Action</td>
                         </tr>
@@ -47,23 +43,17 @@
                         <?php $i = 1;
                         foreach ($listdata->result() as $row_data) { ?>
                             <tr>
-                                <td><small><?php echo $i; ?></small></td>
-                                <td><small><?php echo $row_data->nama_kategori; ?></small></td>
-                                <td><small><?php echo $row_data->judul; ?></small></td>
-                                <td><small><?php echo substr_replace($row_data->deskripsi_paket, "...", 50); ?></small></td>
-                                <td><small>Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->harga)), 3))); ?></small></td>
-                                <td><small>Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->dp)), 3))); ?></small></td>
-                                <td><small><?php echo $row_data->durasi; ?></small></td>
-                                <td><small><?php echo $row_data->judul_jadwal; ?></small></td>
-                                <?php
-                                $warna = "info";
-                                if ($row_data->status == "TRUE") {
-                                    $warna = "success";
-                                } else if ($row_data->status == "FALSE") {
-                                    $warna = "danger";
-                                }
-                                ?>
-                                <td><span class="badge badge-<?php echo $warna; ?>"><?php echo strtoupper($row_data->status); ?></span></td>
+                                <td><?php echo $i; ?></td>
+                                <td><?php echo $row_data->nama; ?></td>
+                                <td><?php echo $row_data->deskripsi; ?></td>
+                                <td><small><?php echo $row_data->materi; ?></small></td> <?php
+                                                                                            $warna = "info";
+                                                                                            if ($row_data->status == "TRUE") {
+                                                                                                $warna = "success";
+                                                                                            } else if ($row_data->status == "FALSE") {
+                                                                                                $warna = "danger";
+                                                                                            }
+                                                                                            ?> <td><span class="badge badge-<?php echo $warna; ?>"><?php echo strtoupper($row_data->status); ?></span></td>
                                 <td>
                                     <div class="btn-group ">
                                         <button class="btn btn-info btn-sm btn-round dropdown-toggle" data-toggle="dropdown">Action</button>
@@ -197,19 +187,19 @@
 </div>
 
 <script>
-    function getview(id) {
-        $.getJSON("/account/kategori/view/" + id, function(data) {
-            // console.log(data);
-            $("#id_update").val(data.id);
-            $("#nama_update").val(data.nama);
-            $("#deskripsi_update").val(data.deskripsi);
-            $("#materi_update").val(data.materi);
-            $("#status_update").val(data.status);
-        });
-    }
+function getview(id){
+    $.getJSON("/account/kategori/view/"+id, function (data) {
+    // console.log(data);
+    $("#id_update").val(data.id);
+    $("#nama_update").val(data.nama);
+    $("#deskripsi_update").val(data.deskripsi);
+    $("#materi_update").val(data.materi);
+    $("#status_update").val(data.status);
+  });
+}
 
-    function deletenow(id) {
-        $("#id_delete").val(id);
-        $("#id_delete_display").html(id);
-    }
+function deletenow(id){
+    $("#id_delete").val(id);
+    $("#id_delete_display").html(id);
+}
 </script>

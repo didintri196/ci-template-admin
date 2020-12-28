@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class C_paket extends CI_Controller
+class C_kategori extends CI_Controller
 {
 
 	/**
@@ -23,67 +22,15 @@ class C_paket extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('App');
-		$this->load->model('M_paket');
-		$this->load->model('M_asrama');
-	}
-
-	public function register()
-	{
-		$view['_title'] = "Daftar Paket &mdash; Britain Kampung Inggris";
-		$view['listdatakategori'] = $this->App->get_all('tb_kategori');
-		$view['listperiode'] = $this->generateperiode();
-		$this->template->display_theme('pages/V_daftar_paket', $view);
-	}
-
-	function generateperiode(){
-		$d=date("d");
-		$periode=array();
-		if($d<=10){
-			array_push($periode, "10".date("-m-Y"));
-		}else if($d>=25){
-			$nxtm = strtotime("next month");
-			$nextmonth=date("-m-Y", $nxtm);
-			array_push($periode, "10".$nextmonth, "25".$nextmonth);
-		}else{
-			$nxtm = strtotime("next month");
-			$nextmonth=date("-m-Y", $nxtm);
-			array_push($periode, "25".date("-m-Y"), "10".$nextmonth);
-		}
-		return $periode;
-		// echo json_encode($periode);
-	}
-
-	public function api_getpaketwherecat($idkategori)
-	{
-		$newdata=array();
-		$listdata = $this->M_paket->get_list_paket_kategori_active($idkategori);
-		$i=0;
-		foreach($listdata->result_array() as $rowdata){
-		$list_fasilitas_asrama = $this->M_asrama->get_faslitas_id($rowdata['id_asrama']);
-			$rowdata['fasilitas_asrama']=$list_fasilitas_asrama->result();
-			$newdata[$i]=$rowdata;
-		$i++;}
-		echo json_encode($newdata);
-	}
-
-	public function api_getpaketwhereid($id)
-	{
-		$listdata = $this->M_paket->get_list_paket_id($id);
-		foreach($listdata->result_array() as $rowdata){
-		$list_fasilitas_asrama = $this->M_asrama->get_faslitas_id($rowdata['id_asrama']);
-			$rowdata['fasilitas_asrama']=$list_fasilitas_asrama->result();
-			$newdata=$rowdata;
-		}
-		echo json_encode($newdata);
 	}
 
 	public function index()
 	{
 		$iduser = "1";
-		$view['_title'] = "Data Paket &mdash; Britain Kampung Inggris";
+		$view['_title'] = "Data Kategori &mdash; Britain Kampung Inggris";
 		$where['id_user'] = $iduser;
-		$view['listdata'] = $this->M_paket->get_list_paket_all();
-		$this->template->display_theme('pages/V_paket', $view);
+		$view['listdata'] = $this->App->get_all_orderby('tb_kategori', "id", "DESC");
+		$this->template->display_theme('pages/V_kategori', $view);
 	}
 
 	public function ack_add()

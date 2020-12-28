@@ -4,7 +4,7 @@
             <img style="height: 50px;" src="https://dashboard.xendit.co/images/bni-logo.svg">
             <hr class="my-3">
             <h6 class="text-uppercase mb-1">Virtual Account#</h6>
-            <h4 class="text-uppercase mb-1"><?php echo $listdata->code_metode; ?></h4><br>
+            <h4 class="text-uppercase mb-1"><?php echo $listdata->trx_metode; ?></h4><br>
             <h6 class="text-uppercase mb-1">Batas waktu pembayaran</h6>
             <h4 class="text-uppercase mb-1"><?php echo (date("d/m/Y H:i", $listdata->tgl_kadaluwarsa)); ?> WIB</h4><br>
             <h6 class="text-uppercase mb-1">Nominal yang akan dibayarkan</h6>
@@ -36,7 +36,7 @@
                     2. Pilih "Transfer"<br>
                     3. Pilih jenis rekening yang akan anda gunakan (contoh: "Dari Rekening Tabungan")<br>
                     4. Pilih "Virtual Account Billing"<br>
-                    5. Masukkan Nomor Virtual Account anda <b><?php echo $listdata->code_metode; ?></b> <br>
+                    5. Masukkan Nomor Virtual Account anda <b><?php echo $listdata->trx_metode; ?></b> <br>
                     6. Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi<br>
                     7. Konfirmasi, apabila telah sesuai, lanjutkan transaksi<br>
                     <b>LANGKAH 3: TRANSAKSI BERHASIL</b><br>
@@ -50,7 +50,7 @@
                     <b>LANGKAH 2: DETAIL PEMBAYARAN</b><br>
                     1. Pilih menu "Transfer"<br>
                     2. Pilih menu "Virtual Account Billing"<br>
-                    3. Masukkan Nomor Virtual Account <b><?php echo $listdata->code_metode; ?></b><br>
+                    3. Masukkan Nomor Virtual Account <b><?php echo $listdata->trx_metode; ?></b><br>
                     4. Lalu pilih rekening debet yang akan digunakan. Kemudian tekan "Lanjut"<br>
                     5. Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi<br>
                     6. Masukkan Kode Otentikasi Token<br>
@@ -65,7 +65,7 @@
                     3. Pilih menu "Transfer"<br>
                     <b>LANGKAH 2: DETAIL PEMBAYARAN</b><br>
                     1. Pilih menu "Virtual Account Billing", lalu pilih rekening debet<br>
-                    2. Masukkan Nomor Virtual Account anda <b><?php echo $listdata->code_metode; ?></b> pada menu "Input Baru"<br>
+                    2. Masukkan Nomor Virtual Account anda <b><?php echo $listdata->trx_metode; ?></b> pada menu "Input Baru"<br>
                     3. Tagihan yang harus dibayarkan akan muncul pada layar konfirmasi<br>
                     4. Konfirmasi transaksi dan masukkan Password Transaksi<br>
                     <b>LANGKAH 3: TRANSAKSI BERHASIL</b><br>

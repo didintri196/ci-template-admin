@@ -24,7 +24,7 @@
 
     <div class="card" style="border-radius: 10px;">
         <div class="card-body">
-            <h2>List Paket <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Paket</button></h2>
+            <h2>List Fasilitas Asrama [<?php echo $data_asrama->nama;?>] <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Fasilitas</button></h2>
             <hr class="my-2">
 
             <div class="m-10">
@@ -32,14 +32,7 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Kategori</td>
-                            <td>Nama</td>
-                            <td>Deskripsi</td>
-                            <td>Harga</td>
-                            <td>DP</td>
-                            <td>Durasi</td>
-                            <td>Jadwal</td>
-                            <td>Status</td>
+                            <td>Fasilitas</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -47,23 +40,8 @@
                         <?php $i = 1;
                         foreach ($listdata->result() as $row_data) { ?>
                             <tr>
-                                <td><small><?php echo $i; ?></small></td>
-                                <td><small><?php echo $row_data->nama_kategori; ?></small></td>
-                                <td><small><?php echo $row_data->judul; ?></small></td>
-                                <td><small><?php echo substr_replace($row_data->deskripsi_paket, "...", 50); ?></small></td>
-                                <td><small>Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->harga)), 3))); ?></small></td>
-                                <td><small>Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->dp)), 3))); ?></small></td>
-                                <td><small><?php echo $row_data->durasi; ?></small></td>
-                                <td><small><?php echo $row_data->judul_jadwal; ?></small></td>
-                                <?php
-                                $warna = "info";
-                                if ($row_data->status == "TRUE") {
-                                    $warna = "success";
-                                } else if ($row_data->status == "FALSE") {
-                                    $warna = "danger";
-                                }
-                                ?>
-                                <td><span class="badge badge-<?php echo $warna; ?>"><?php echo strtoupper($row_data->status); ?></span></td>
+                                <td><?php echo $i; ?></td>
+                                <td><?php echo $row_data->fasilitas; ?></td>
                                 <td>
                                     <div class="btn-group ">
                                         <button class="btn btn-info btn-sm btn-round dropdown-toggle" data-toggle="dropdown">Action</button>
@@ -89,7 +67,7 @@
 <div class="modal modal-center fade" id="modal-add" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/add" method="POST">
+            <form action="/account/asrama/<?php echo $data_asrama->id;?>/fasilitas/add" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Tambah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -98,23 +76,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="deskripsi">Deskripsi</label>
-                        <textarea type="text" class="form-control" id="deskripsi" name="deskripsi" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="materi">Materi <small style="color:red">*Pisahkan dengan comma</small></label>
-                        <textarea type="text" class="form-control" id="materi" name="materi" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control" required>
-                            <option value="TRUE" selected>Aktif</option>
-                            <option value="FALSE">Tidak Aktif</option>
-                        </select>
+                        <label for="fasilitas">Fasilitas</label>
+                        <input type="text" class="form-control" id="fasilitas" name="fasilitas" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -130,7 +93,7 @@
 <div class="modal modal-center fade" id="modal-edit" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/update" method="POST">
+            <form action="/account/asrama/<?php echo $data_asrama->id;?>/fasilitas/update" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Ubah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -143,23 +106,8 @@
                         <input type="text" class="form-control" id="id_update" name="id" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nama_update">Nama</label>
-                        <input type="text" class="form-control" id="nama_update" name="nama" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="deskripsi_update">Deskripsi</label>
-                        <textarea type="text" class="form-control" id="deskripsi_update" name="deskripsi" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="materi_update">Materi <small style="color:red">*Pisahkan dengan comma</small></label>
-                        <textarea type="text" class="form-control" id="materi_update" name="materi" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="status_update">Status</label>
-                        <select name="status" id="status_update" class="form-control" required>
-                            <option value="TRUE">Aktif</option>
-                            <option value="FALSE">Tidak Aktif</option>
-                        </select>
+                        <label for="fasilitas_update">Faslitas</label>
+                        <input type="text" class="form-control" id="fasilitas_update" name="fasilitas" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -176,7 +124,7 @@
 <div class="modal modal-center fade" id="modal-delete" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/delete" method="POST">
+            <form action="/account/asrama/<?php echo $data_asrama->id;?>/fasilitas/delete" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Delete Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -198,13 +146,10 @@
 
 <script>
     function getview(id) {
-        $.getJSON("/account/kategori/view/" + id, function(data) {
+        $.getJSON("/account/asrama/fasilitas/view/" + id, function(data) {
             // console.log(data);
             $("#id_update").val(data.id);
-            $("#nama_update").val(data.nama);
-            $("#deskripsi_update").val(data.deskripsi);
-            $("#materi_update").val(data.materi);
-            $("#status_update").val(data.status);
+            $("#fasilitas_update").val(data.fasilitas);
         });
     }
 

@@ -32,21 +32,39 @@
             <hr class="my-2">
 
             <div class="m-10">
-                <table class="table table-responsive table-sm table-striped">
+                <table data-provide="datatables" class="table table-responsive table-sm">
+                    <thead>
                     <tr>
+                        <td>No</td>
                         <td>Code</td>
                         <td>Periode</td>
                         <td>Total Dibayar</td>
                         <td>Status</td>
                     </tr>
-                    <?php foreach ($listdata->result() as $row_data) { ?>
+                    </thead>
+                    <tbody>
+                    <?php $i=1;foreach ($listdata->result() as $row_data) { ?>
                         <tr>
+                            <td><?php echo $i;?></td>
                             <td><a href="/account/transaksi/payout/<?php echo $row_data->code_trx;?>">#<b><?php echo $row_data->code_trx;?></b></a></td>
                             <td><?php echo $row_data->periode;?></td>
                             <td><?php if($row_data->pembayaran_tipe=="dp"){echo"<b>[DP]</b>";}?> Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->total_bayar)), 3)));?></td>
-                            <td><?php echo $row_data->status;?></td>
+                            <?php
+                        $warna = "info";
+                        if ($row_data->status == "payed") {
+                            $warna = "success";
+                        } else if ($row_data->status == "cancel") {
+                            $warna = "danger";
+                        } else if ($row_data->status == "expired") {
+                            $warna = "warning";
+                        } else if ($row_data->status == "lulus") {
+                            $warna = "primary";
+                        }
+                        ?>
+                     <td><span class="badge badge-<?php echo $warna; ?>"><?php echo strtoupper($row_data->status); ?></span></td>
                         </tr>
-                    <?php } ?>
+                    <?php $i++;} ?>
+                    </tbody>
                 </table>
             </div>
 
@@ -55,28 +73,3 @@
 
 </div>
 
-<!-- Modal -->
-<div class="modal modal-center fade" id="modal-center" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content" style="border-radius: 10px;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-title">Loading...</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>Durasi:</h3>
-                <label id="durasi">Loading...</label>
-                <h3>Fasilitas Kursus:</h3>
-                <ul id="fasilitas_kursus">
-                </ul>
-                <div id="fasilitas_asrama">
-                </div>
-                <hr class="my-2">
-                <center id="button_pay">
-                </center>
-            </div>
-        </div>
-    </div>
-</div>

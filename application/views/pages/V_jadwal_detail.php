@@ -24,22 +24,20 @@
 
     <div class="card" style="border-radius: 10px;">
         <div class="card-body">
-            <h2>List Paket <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Paket</button></h2>
+            <h2>List Materi [<?php echo $data_jadwal->judul; ?>]<button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Materi</button></h2>
             <hr class="my-2">
 
             <div class="m-10">
                 <table data-provide="datatables" class="table table-responsive table-sm">
                     <thead>
                         <tr>
-                            <td>No</td>
-                            <td>Kategori</td>
-                            <td>Nama</td>
-                            <td>Deskripsi</td>
-                            <td>Harga</td>
-                            <td>DP</td>
+                            <td>#</td>
+                            <td>Hari</td>
+                            <td>Jam</td>
+                            <td>Pengajar</td>
+                            <td>Materi</td>
                             <td>Durasi</td>
-                            <td>Jadwal</td>
-                            <td>Status</td>
+                            <td>Kontak Pengajar</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -47,23 +45,31 @@
                         <?php $i = 1;
                         foreach ($listdata->result() as $row_data) { ?>
                             <tr>
-                                <td><small><?php echo $i; ?></small></td>
-                                <td><small><?php echo $row_data->nama_kategori; ?></small></td>
-                                <td><small><?php echo $row_data->judul; ?></small></td>
-                                <td><small><?php echo substr_replace($row_data->deskripsi_paket, "...", 50); ?></small></td>
-                                <td><small>Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->harga)), 3))); ?></small></td>
-                                <td><small>Rp.<?php echo strrev(implode('.', str_split(strrev(strval($row_data->dp)), 3))); ?></small></td>
-                                <td><small><?php echo $row_data->durasi; ?></small></td>
-                                <td><small><?php echo $row_data->judul_jadwal; ?></small></td>
+                                <td><?php echo $i; ?></td>
                                 <?php
-                                $warna = "info";
-                                if ($row_data->status == "TRUE") {
-                                    $warna = "success";
-                                } else if ($row_data->status == "FALSE") {
-                                    $warna = "danger";
+                                $hari = "";
+                                if ($row_data->hari == 1) {
+                                    $hari = "SENIN";
+                                } else if ($row_data->hari == 2) {
+                                    $hari = "SELASA";
+                                } else if ($row_data->hari == 3) {
+                                    $hari = "RABU";
+                                } else if ($row_data->hari == 4) {
+                                    $hari = "KAMIS";
+                                } else if ($row_data->hari == 5) {
+                                    $hari = "JUMAT";
+                                } else if ($row_data->hari == 6) {
+                                    $hari = "SABTU";
+                                } else if ($row_data->hari == 7) {
+                                    $hari = "MINGGU";
                                 }
                                 ?>
-                                <td><span class="badge badge-<?php echo $warna; ?>"><?php echo strtoupper($row_data->status); ?></span></td>
+                                <td><?php echo $hari; ?></td>
+                                <td><?php echo $row_data->jam; ?></td>
+                                <td><?php echo $row_data->nama_lengkap; ?></td>
+                                <td><small><?php echo $row_data->nama; ?></small></td>
+                                <td><?php echo $row_data->durasi; ?> Menit</td>
+                                <td><?php echo $row_data->no_telp; ?></td>
                                 <td>
                                     <div class="btn-group ">
                                         <button class="btn btn-info btn-sm btn-round dropdown-toggle" data-toggle="dropdown">Action</button>
@@ -89,7 +95,7 @@
 <div class="modal modal-center fade" id="modal-add" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/add" method="POST">
+            <form action="/account/jadwal/<?php echo $id_jadwal; ?>/materi/add" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Tambah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -98,22 +104,39 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
+                        <label for="hari">Hari</label>
+                        <select name="hari" id="hari" class="form-control" required>
+                            <option value="1" selected>Senin</option>
+                            <option value="2">Selasa</option>
+                            <option value="3">Rabu</option>
+                            <option value="4">Kamis</option>
+                            <option value="5">Jumat</option>
+                            <option value="6">Sabtu</option>
+                            <option value="7">Minggu</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="deskripsi">Deskripsi</label>
-                        <textarea type="text" class="form-control" id="deskripsi" name="deskripsi" required></textarea>
+                        <label for="jam">Jam</label>
+                        <input type="time" class="form-control" id="jam" name="jam" required>
                     </div>
                     <div class="form-group">
-                        <label for="materi">Materi <small style="color:red">*Pisahkan dengan comma</small></label>
-                        <textarea type="text" class="form-control" id="materi" name="materi" required></textarea>
+                        <label for="durasi">Durasi</label>
+                        <input type="number" class="form-control" id="durasi" name="durasi" required>
                     </div>
                     <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control" required>
-                            <option value="TRUE" selected>Aktif</option>
-                            <option value="FALSE">Tidak Aktif</option>
+                        <label for="id_materi">List Materi</label>
+                        <select name="id_materi" id="id_materi" class="form-control" required>
+                            <?php foreach ($data_materi->result() as $row_materi) { ?>
+                                <option value="<?php echo $row_materi->id; ?>"><?php echo $row_materi->nama; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_pengajar">List Pengajar</label>
+                        <select name="id_pengajar" id="id_pengajar" class="form-control" required>
+                            <?php foreach ($data_pengajar->result() as $row_pengajar) { ?>
+                                <option value="<?php echo $row_pengajar->id; ?>"><?php echo $row_pengajar->nama_lengkap; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -130,7 +153,7 @@
 <div class="modal modal-center fade" id="modal-edit" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/update" method="POST">
+            <form action="/account/jadwal/<?php echo $id_jadwal; ?>/materi/update" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Ubah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -143,22 +166,39 @@
                         <input type="text" class="form-control" id="id_update" name="id" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nama_update">Nama</label>
-                        <input type="text" class="form-control" id="nama_update" name="nama" required>
+                        <label for="hari_update">Hari</label>
+                        <select name="hari" id="hari_update" class="form-control" required>
+                            <option value="1" selected>Senin</option>
+                            <option value="2">Selasa</option>
+                            <option value="3">Rabu</option>
+                            <option value="4">Kamis</option>
+                            <option value="5">Jumat</option>
+                            <option value="6">Sabtu</option>
+                            <option value="7">Minggu</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="deskripsi_update">Deskripsi</label>
-                        <textarea type="text" class="form-control" id="deskripsi_update" name="deskripsi" required></textarea>
+                        <label for="jam_update">Jam</label>
+                        <input type="time" class="form-control" id="jam_update" name="jam" required>
                     </div>
                     <div class="form-group">
-                        <label for="materi_update">Materi <small style="color:red">*Pisahkan dengan comma</small></label>
-                        <textarea type="text" class="form-control" id="materi_update" name="materi" required></textarea>
+                        <label for="durasi_update">Durasi</label>
+                        <input type="number" class="form-control" id="durasi_update" name="durasi" required>
                     </div>
                     <div class="form-group">
-                        <label for="status_update">Status</label>
-                        <select name="status" id="status_update" class="form-control" required>
-                            <option value="TRUE">Aktif</option>
-                            <option value="FALSE">Tidak Aktif</option>
+                        <label for="id_materi_update">List Materi</label>
+                        <select name="id_materi" id="id_materi_update" class="form-control" required>
+                            <?php foreach ($data_materi->result() as $row_materi) { ?>
+                                <option value="<?php echo $row_materi->id; ?>"><?php echo $row_materi->nama; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_pengajar_update">List Pengajar</label>
+                        <select name="id_pengajar" id="id_pengajar_update" class="form-control" required>
+                            <?php foreach ($data_pengajar->result() as $row_pengajar) { ?>
+                                <option value="<?php echo $row_pengajar->id; ?>"><?php echo $row_pengajar->nama_lengkap; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -176,7 +216,7 @@
 <div class="modal modal-center fade" id="modal-delete" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/delete" method="POST">
+            <form action="/account/jadwal/<?php echo $id_jadwal; ?>/materi/delete" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Delete Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -198,13 +238,14 @@
 
 <script>
     function getview(id) {
-        $.getJSON("/account/kategori/view/" + id, function(data) {
+        $.getJSON("/account/jadwal/materi/view/" + id, function(data) {
             // console.log(data);
             $("#id_update").val(data.id);
-            $("#nama_update").val(data.nama);
-            $("#deskripsi_update").val(data.deskripsi);
-            $("#materi_update").val(data.materi);
-            $("#status_update").val(data.status);
+            $("#hari_update").val(data.hari);
+            $("#jam_update").val(data.jam);
+            $("#durasi_update").val(data.durasi);
+            $("#id_materi_update").val(data.id_materi);
+            $("#id_pengajar_update").val(data.id_pengajar);
         });
     }
 
