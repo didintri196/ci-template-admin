@@ -1,3 +1,4 @@
+<?php $session = $this->sessionlogin->get_session();?>
 <aside class="sidebar sidebar-icons-right sidebar-icons-boxed sidebar-expand-lg sidebar-light">
     <header class="sidebar-header bg-light">
         <span class="logo">
@@ -7,7 +8,7 @@
 
     <nav class="sidebar-navigation">
         <ul class="menu">
-
+        <?php if($session['akses']=="user"||$session['akses']=="admin"){?>
             <li class="menu-category">Utama</li>
 
             <li class="menu-item <?php if ($this->uri->segment(2, 0) == 'dashboard') {
@@ -33,8 +34,8 @@
                     <span class="title">List Transaksi</span>
                 </a>
             </li>
-            
-
+            <?php } ?>
+            <?php if($session['akses']=="admin"){?>
             <li class="menu-category">Master</li>
             <li class="menu-item <?php if ($this->uri->segment(2, 0) == "paket") {
                                         echo 'active';
@@ -93,6 +94,7 @@
                     <span class="title">Data User</span>
                 </a>
             </li>
+            <?php } ?>
             <li class="menu-category">Profil</li>
             <li class="menu-item <?php if ($this->uri->segment(2, 0) == 'profile') { echo 'active';} ?>">
                 <a class="menu-link" href="<?php echo base_url(); ?>account/profile">

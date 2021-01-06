@@ -13,5 +13,19 @@ class M_transaksi extends CI_Model
         $query = $this->db->query($sql);
         return $query;
     }
+
+    public function get_list_trx_expired($time)
+    {
+        $sql = "SELECT * FROM `tb_transaksi` WHERE status='pending' AND tgl_kadaluwarsa < $time";
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
+    public function set_list_trx_expired($time)
+    {
+        $sql = "UPDATE `tb_transaksi` SET `status` = 'expired' WHERE status='pending' AND tgl_kadaluwarsa < $time";
+        $query = $this->db->query($sql);
+        return $query;
+    }
     
 }

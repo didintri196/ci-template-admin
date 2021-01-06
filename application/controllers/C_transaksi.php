@@ -21,20 +21,27 @@ class C_transaksi extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->sessionlogin->cek_login();
 		$this->load->model('App');
 		$this->load->model('M_paket');
 		$this->load->model('M_coupon');
 		$this->load->model('M_transaksi');
+		$this->load->model('M_notif');
 		// $this->load->model('xenditlib');
 	}
 
 	public function index()
 	{
-		$iduser = "1";
+		$session = $this->sessionlogin->get_session();
+		$iduser = $session['id'];
 		$view['_title'] = "List Transaksi &mdash; Britain Kampung Inggris";
 		$where['id_user'] = $iduser;
 		$view['listdata'] = $this->App->get_where_orderby('tb_transaksi', $where, "id", "DESC");
-		$this->template->display_theme('pages/V_transaksi', $view);
+		if($session['akses']=="user"){
+			$this->template->display_theme('pages/V_transaksi_user', $view);
+		}else{
+			$this->template->display_theme('pages/V_transaksi_admin', $view);
+		}
 		// $this->xenditlib->get_ballance();
 	}
 	public function checkout($param)
@@ -74,7 +81,8 @@ class C_transaksi extends CI_Controller
 
 	public function ack_checkout()
 	{
-		$iduser = "1";
+		$session = $this->sessionlogin->get_session();
+		$iduser = $session['id'];
 		$where_account['id'] = $iduser;
 		$row_account = $this->App->get_where("tb_account", $where_account);
 		$data_account = $row_account->row();
@@ -107,7 +115,7 @@ class C_transaksi extends CI_Controller
 					$transaksi['subtotal'] = $total_dp;
 				} else {
 					$transaksi['subtotal'] = $total_harga;
-					$status_pay="full";
+					$status_pay = "full";
 				}
 				//hitung potongan voucher
 				$potongan = 0;
@@ -206,6 +214,9 @@ class C_transaksi extends CI_Controller
 						$where_trx['id'] = $id_transaksi;
 						$data_trx['trx_metode'] = $code_metode;
 						$this->App->update('tb_transaksi', $data_trx, $where_trx);
+
+						//SEND NOTIF
+						$this->M_notif->create("email_transaksi", $id_transaksi, "invoice", $data_account->email);
 						// echo json_encode($transaksi);
 
 						redirect(base_url('/account/transaksi/payout/' . $code_trx));
@@ -230,7 +241,20 @@ class C_transaksi extends CI_Controller
 
 	public function cek_trx()
 	{
-		echo "HALO";
+		$time_now = time();
+		$data = $this->M_transaksi->get_list_trx_expired($time_now);
+		$expired = $this->M_transaksi->set_list_trx_expired($time_now);
+		// echo json_encode($data);
+		echo "TIME : " . $time_now . "<br>";
+		echo "EXPIRED : <br>";
+		foreach ($data->result() as $row_data) {
+			echo "[ ID : " . $row_data->id . "] [ DATE : " . date("Y-m-d H:i:s", $row_data->tgl_kadaluwarsa) . " ] -> EXPIRED <br>";
+			//GET USER
+			$where_user['id'] = $row_data->id_user;
+			$user = $this->App->get_where('tb_account', $where_user)->row();
+			//SEND NOTIF
+			$this->M_notif->create("email_transaksi", $row_data->id, "expired", $user->email);
+		}
 	}
 	public function payout($code)
 	{
@@ -263,17 +287,35 @@ class C_transaksi extends CI_Controller
 
 	public function cancel($code)
 	{
+		$session = $this->sessionlogin->get_session();
+		$iduser = $session['id'];
 		$code_decode = base64_decode($code);
 		$where['code_trx'] = $code_decode;
 		$where['status'] = 'pending';
+		$where['id_user'] = $iduser;
 		$data['status'] = 'cancel';
-		$update = $this->App->update('tb_transaksi', $data, $where);
-		if ($update) {
-			$this->session->set_flashdata('alert', 'success|<b>Berhasil</b>  Berhasil Membatalkan Transaksi <b>' . $code_decode . '</b>.');
-			redirect(base_url('/account/transaksi/payout/' . $code_decode));
+		$cek = $this->App->get_where('tb_transaksi', $where);
+		if ($cek->num_rows() > 0) {
+			$update = $this->App->update('tb_transaksi', $data, $where);
+			if ($update) {
+				//GET TRX
+				unset($where['status']);
+				$transaksi = $this->App->get_where('tb_transaksi', $where)->row();
+				//GET USER
+				$where_user['id'] = $transaksi->id_user;
+				$user = $this->App->get_where('tb_account', $where_user)->row();
+				//SEND NOTIF
+				$this->M_notif->create("email_transaksi", $transaksi->id, "cancel", $user->email);
+
+				$this->session->set_flashdata('alert', 'success|<b>Berhasil</b>  Berhasil Membatalkan Transaksi <b>' . $code_decode . '</b>.');
+				redirect(base_url('/account/transaksi/payout/' . $code_decode));
+			} else {
+				$this->session->set_flashdata('alert', 'danger|<b>Gagal</b>  Gagal Membatalkan Transaksi <b>' . $code_decode . '</b>.');
+				redirect(base_url('/account/transaksi/payout/' . $code_decode));
+			}
 		} else {
-			$this->session->set_flashdata('alert', 'danger|<b>Gagal</b>  Gagal Membatalkan Transaksi <b>' . $code_decode . '</b>.');
-			redirect(base_url('/account/transaksi/payout/' . $code_decode));
+			$this->session->set_flashdata('alert', 'danger|<b>Gagal</b>  Gagal Membatalkan Transaksi, Transaksi tidak ditemukan.');
+			redirect(base_url('/account/transaksi'));
 		}
 	}
 	public function test()

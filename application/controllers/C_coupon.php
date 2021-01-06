@@ -22,6 +22,7 @@ class C_coupon extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->sessionlogin->cek_login();
 		$this->load->model('App');
 		$this->load->model('M_coupon');
 	}

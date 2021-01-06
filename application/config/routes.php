@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 //PAGE
-$route['default_controller'] = 'C_dashboard/redirect';
+$route['default_controller'] = 'C_home';
 $route['account'] = 'C_dashboard/redirect';
 $route['account/dashboard'] = 'C_dashboard';
 $route['account/register-paket'] = 'C_paket/register';
@@ -62,6 +62,10 @@ $route['account/transaksi/cancel/(.*)'] = 'C_transaksi/cancel/$1';
 $route['account/register-paket/checkout/(.*)'] = 'C_transaksi/checkout/$1';
 
 $route['account/profile'] = 'C_account/profile';
+$route['account/login'] = 'C_account/login';
+$route['account/logout'] = 'C_account/logout';
+$route['account/register'] = 'C_account/register';
+$route['account/verif/(.*)'] = 'C_account/verif/$1';
 
 $route['account/kategori'] = 'C_kategori';
 $route['account/kategori/add'] = 'C_kategori/ack_add';
@@ -118,6 +122,13 @@ $route['account/paket/delete'] = 'C_paket/ack_delete';
 $route['api/upload/image/(.*)'] = 'C_upload/image/$1';
 $route['api/paket/kategori/(.*)'] = 'C_paket/api_getpaketwherecat/$1';
 $route['api/cek-coupon/(.*)'] = 'C_coupon/api_getcodewherecode/$1';
+
+$route['cek_transaksi'] = 'C_transaksi/cek_trx';
+
+$route['webhook/status/va'] = 'C_webhook/status_va';
+$route['webhook/pay/va'] = 'C_webhook/pay_va';
+$route['webhook/pay/retail'] = 'C_webhook/pay_retail';
+
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -89,25 +89,82 @@
 <div class="modal modal-center fade" id="modal-add" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/add" method="POST">
+            <form action="/account/paket/add" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Tambah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body row">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
+                        <label for="judul">Judul</label>
+                        <input type="text" class="form-control" id="judul" name="judul" required>
                     </div>
                     <div class="form-group">
-                        <label for="deskripsi">Deskripsi</label>
+                        <label for="id_kategori">Kategori</label>
+                        <select name="id_kategori" id="id_kategori" class="form-control" required>
+                            <?php foreach($listkategori->result() as $rowkategori){ ?>
+                            <option value="<?php echo $rowkategori->id;?>" selected><?php echo $rowkategori->nama;?></option>
+                            <?php }?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="deskripsi">Deskripsi <small style="color:red">*Pisahkan dengan comma</small></label>
                         <textarea type="text" class="form-control" id="deskripsi" name="deskripsi" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="materi">Materi <small style="color:red">*Pisahkan dengan comma</small></label>
-                        <textarea type="text" class="form-control" id="materi" name="materi" required></textarea>
+                        <label for="harga">Harga Keseluruhan</label>
+                        <input type="number" class="form-control" id="harga" name="harga" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dp">Bayar Sebagian (DP)</label>
+                        <input type="number" class="form-control" id="dp" name="dp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="periode">Periode</label>
+                        <select name="periode" id="periode" class="form-control" required>
+                            <option value="all" selected>10 / 25</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="durasi">Durasi</label>
+                        <input type="text" class="form-control" id="durasi" name="durasi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asrama">Asrama</label>
+                        <select name="asrama" id="asrama" class="form-control" required>
+                            <option value="TRUE" selected>Ya</option>
+                            <option value="FALSE">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_asrama">Data Asrama</label>
+                        <select name="id_asrama" id="id_asrama" class="form-control" required>
+                            <?php foreach($listasrama->result() as $rowasrama){ ?>
+                            <option value="<?php echo $rowasrama->id;?>" selected><?php echo $rowasrama->nama;?></option>
+                            <?php }?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal">Jadwal</label>
+                        <select name="jadwal" id="jadwal" class="form-control" required>
+                            <option value="TRUE" selected>Sudah Diatur</option>
+                            <option value="FALSE">Belum Diatur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_jadwal">Data Jadwal</label>
+                        <select name="id_jadwal" id="id_jadwal" class="form-control" required>
+                            <?php foreach($listjadwal->result() as $rowjadwal){ ?>
+                            <option value="<?php echo $rowjadwal->id;?>" selected><?php echo $rowjadwal->judul;?></option>
+                            <?php }?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
@@ -116,6 +173,7 @@
                             <option value="FALSE">Tidak Aktif</option>
                         </select>
                     </div>
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal">Close</button>
@@ -130,37 +188,92 @@
 <div class="modal modal-center fade" id="modal-edit" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/update" method="POST">
+            <form action="/account/paket/update" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Ubah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body row">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label for="id_update">ID</label>
-                        <input type="text" class="form-control" id="id_update" name="id" readonly>
+                        <label for="judul_update">Judul</label>
+                        <input type="hidden" id="id_update" name="id" readonly>
+                        <input type="text" class="form-control" id="judul_update" name="judul" required>
                     </div>
                     <div class="form-group">
-                        <label for="nama_update">Nama</label>
-                        <input type="text" class="form-control" id="nama_update" name="nama" required>
+                        <label for="id_kategori_update">Kategori</label>
+                        <select name="id_kategori" id="id_kategori_update" class="form-control" required>
+                            <?php foreach($listkategori->result() as $rowkategori){ ?>
+                            <option value="<?php echo $rowkategori->id;?>" selected><?php echo $rowkategori->nama;?></option>
+                            <?php }?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="deskripsi_update">Deskripsi</label>
+                        <label for="deskripsi_update">Deskripsi <small style="color:red">*Pisahkan dengan comma</small></label>
                         <textarea type="text" class="form-control" id="deskripsi_update" name="deskripsi" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="materi_update">Materi <small style="color:red">*Pisahkan dengan comma</small></label>
-                        <textarea type="text" class="form-control" id="materi_update" name="materi" required></textarea>
+                        <label for="harga_update">Harga Keseluruhan</label>
+                        <input type="number" class="form-control" id="harga_update" name="harga" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dp_update">Bayar Sebagian (DP)</label>
+                        <input type="number" class="form-control" id="dp_update" name="dp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="periode_update">Periode</label>
+                        <select name="periode" id="periode_update" class="form-control" required>
+                            <option value="all" selected>10 / 25</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="durasi_update">Durasi</label>
+                        <input type="text" class="form-control" id="durasi_update" name="durasi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asrama_update">Asrama</label>
+                        <select name="asrama" id="asrama_update" class="form-control" required>
+                            <option value="TRUE" selected>Ya</option>
+                            <option value="FALSE">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_asrama_update">Data Asrama</label>
+                        <select name="id_asrama" id="id_asrama_update" class="form-control" required>
+                            <?php foreach($listasrama->result() as $rowasrama){ ?>
+                            <option value="<?php echo $rowasrama->id;?>" selected><?php echo $rowasrama->nama;?></option>
+                            <?php }?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal_update">Jadwal</label>
+                        <select name="jadwal" id="jadwal_update" class="form-control" required>
+                            <option value="TRUE" selected>Sudah Diatur</option>
+                            <option value="FALSE">Belum Diatur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_jadwal_update">Data Jadwal</label>
+                        <select name="id_jadwal" id="id_jadwal_update" class="form-control" required>
+                            <?php foreach($listjadwal->result() as $rowjadwal){ ?>
+                            <option value="<?php echo $rowjadwal->id;?>" selected><?php echo $rowjadwal->judul;?></option>
+                            <?php }?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="status_update">Status</label>
                         <select name="status" id="status_update" class="form-control" required>
-                            <option value="TRUE">Aktif</option>
+                            <option value="TRUE" selected>Aktif</option>
                             <option value="FALSE">Tidak Aktif</option>
                         </select>
                     </div>
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal">Close</button>
@@ -176,7 +289,7 @@
 <div class="modal modal-center fade" id="modal-delete" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/kategori/delete" method="POST">
+            <form action="/account/paket/delete" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Delete Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -198,12 +311,20 @@
 
 <script>
     function getview(id) {
-        $.getJSON("/account/kategori/view/" + id, function(data) {
+        $.getJSON("/account/paket/view/" + id, function(data) {
             // console.log(data);
             $("#id_update").val(data.id);
-            $("#nama_update").val(data.nama);
+            $("#judul_update").val(data.judul);
+            $("#id_kategori_update").val(data.id_kategori);
             $("#deskripsi_update").val(data.deskripsi);
-            $("#materi_update").val(data.materi);
+            $("#harga_update").val(data.harga);
+            $("#dp_update").val(data.dp);
+            $("#periode_update").val(data.periode);
+            $("#durasi_update").val(data.durasi);
+            $("#asrama_update").val(data.asrama);
+            $("#id_asrama_update").val(data.id_asrama);
+            $("#jadwal_update").val(data.jadwal);
+            $("#id_jadwal_update").val(data.id_jadwal);
             $("#status_update").val(data.status);
         });
     }
