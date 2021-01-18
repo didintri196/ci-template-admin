@@ -11,7 +11,7 @@ class Xenditlib
     function __construct()
     {
         $this->_ci = &get_instance();
-        $this->apikey = "xnd_production_IXSnjf8PNwPX7dHxVLOzs56owYqwiCG3VaidQgTpB31uR7ISkKzPilf9e4j14m6j";
+        $this->apikey = "xnd_production_dZf1l6viwJWHJvtGdDfZvKD1uodVXCQN2kXq4fFSmNFdPzaGY16zlhBVIGBTxRx";
     }
     function get_ballance()
     {
@@ -42,12 +42,12 @@ class Xenditlib
         Xendit::setApiKey($this->apikey);
         $params = [
             "external_id" => $external_id,
-            "retail_outlet_name " => $retailcode,
+            "retail_outlet_name" => $retailcode,
             "name" => $nama,
             "expected_amount" => $amount,
             "expiration_date" => $expired
         ];
-        
+        // var_dump($params);
         $createFPC = \Xendit\Retail::create($params);
         // var_dump($createFPC);
         return $createFPC;
@@ -67,18 +67,27 @@ class Xenditlib
         return $qr_code;
     }
 
-    function virtualaccount_test()
+    function retail_test()
     {
         Xendit::setApiKey($this->apikey);
         $params = [
-            "external_id" => "COBA-VA0000",
-            "retail_outlet_name " => "ALFAMART",
-            "name" => "DIDIN",
-            "expected_amount" => 150000
+            'external_id' => 'TEST-123456789',
+            'retail_outlet_name' => 'ALFAMART',
+            'name' => 'JOHN DOE',
+            'expected_amount' => 25000
         ];
-
-        $createVA = \Xendit\Retail::create($params);
-        // var_dump($createVA);
-        return $createVA;
+        
+        $createFPC = \Xendit\Retail::create($params);
+        var_dump($createFPC);
+        
+        $id = $createFPC['id'];
+        
+        $getFPC = \Xendit\Retail::retrieve($id);
+        var_dump($getFPC);
+        
+        $updateParams = ['expected_amount' => 20000];
+        
+        $updateFPC = \Xendit\Retail::update($id, $updateParams);
+        var_dump($updateFPC);
     }
 }

@@ -53,7 +53,7 @@ class App extends CI_Model
 	public function delete($table = null, $where = null)
 	{
 		$this->db->where($where);
-		$this->db->delete($table);
+		return $this->db->delete($table);
 	}
 
 	public function total_rows($table)

@@ -96,7 +96,7 @@ function get_paket_kategori(id) {
     periode = $("#periode").val();
     var html = "";
     $.ajax({
-        url: "/api/paket/kategori/" + id,
+        url: "/api/paket/kategori/" + id + "/" + periode,
         dataType: "json",
         type: "GET",
         success: function(response) {
@@ -153,7 +153,7 @@ function get_paket_kategori_periode() {
     periode = $("#periode").val();
     var html = "";
     $.ajax({
-        url: "/api/paket/kategori/" + id,
+        url: "/api/paket/kategori/" + id + "/" + periode,
         dataType: "json",
         type: "GET",
         success: function(response) {

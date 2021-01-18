@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 class C_user extends CI_Controller
 {
 
@@ -27,35 +26,99 @@ class C_user extends CI_Controller
 
 	public function index()
 	{
-		$view['_title'] = "Data User - MinSys";
-		$view['listdata'] = $this->App->get_all('tb_user');
+		$iduser = "1";
+		$view['_title'] = "Data user &mdash; Britain Kampung Inggris";
+		$where['id_user'] = $iduser;
+		$view['listdata'] = $this->App->get_all_orderby('tb_account', "id", "DESC");
 		$this->template->display_theme('pages/V_user', $view);
 	}
 
-	public function add()
+	public function ack_add()
 	{
-		$config['host'] = "vpn2.labkom.my.id";
-		$config['user'] = "admin";
-		$config['pass'] = "segopecel12";
-		$config['port'] = "31227";
-
-		$data['id'] = $this->App->GenerateId("tb_paket", "P");
-		$data['nama_paket'] = $this->input->post("nama_paket");
-		$download = $this->input->post("download");
-		$upload = $this->input->post("upload");
-		$data['rate_limit'] = $upload . "/" . $download;
-		$data['harga'] = $this->input->post("harga");
-		$data['deskripsi'] = $this->input->post("deskripsi");
-		$insert_db = $this->App->insert('tb_paket', $data);
-		if ($insert_db) {
-			$this->session->set_flashdata('alert', 'selesai|success|<b>Database</b>  Berhasil Menambahkan Paket <b>' . $data['nama_paket'] . '</b>.');
-			$create_profile_mikrotik = $this->mikrotikapi->ppp_profile_create($config, $data['id'], $data['nama_paket'], $data['rate_limit'], $data['harga']);
-			if ($create_profile_mikrotik) {
-				$this->session->set_flashdata('alert2', 'selesai|success|<b>Mikrotik</b>  Berhasil Menambahkan Paket <b>' . $data['nama_paket'] . '</b>.');
+		$file_upload = $this->uploader->image('profile');
+		if ($file_upload["status"] == "success") {
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['no_telp'] = $this->input->post('no_telp');
+			$data['alamat'] = $this->input->post('alamat');
+			$data['password'] = md5($this->input->post('password'));
+			$data['link_photo'] = $file_upload["data"]["file_name"];
+			// print_r($file_upload);
+			$data['create_at'] = date("Y-m-d H:i:s");
+			$data['akses'] = $this->input->post('akses');
+			$data['status'] = $this->input->post('status');
+			$insert = $this->App->insert('tb_account', $data);
+			if ($insert) {
+				$this->session->set_flashdata('alert', 'success|<b>Success</b> Berhasil membuat data user.');
+				redirect(base_url('/account/user'));
+			} else {
+				$this->session->set_flashdata('alert', 'danger|<b>Gagal</b> Gagal membuat data user.');
+				redirect(base_url('/account/user'));
 			}
 		} else {
-			$this->session->set_flashdata('alert', 'selesai|warning|<b>Mohon Maaf</b> Gagal Menambahkan Paket.');
+			$this->session->set_flashdata('alert', 'danger|<b>Gagal Upload</b> '.$file_upload["error"]);
+			redirect(base_url('/account/user'));
 		}
-		redirect(base_url('paket'));
+	}
+
+	public function ack_view($id)
+	{
+		$where['id'] = $id;
+		$data = $this->App->get_where('tb_account', $where);
+		echo json_encode($data->row());
+	}
+
+	public function ack_update()
+	{
+		$where['id'] = $this->input->post('id');
+		$file_upload = $this->uploader->image('profile');
+		if ($file_upload["status"] == "success") {
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['no_telp'] = $this->input->post('no_telp');
+			$data['alamat'] = $this->input->post('alamat');
+			$data['link_photo'] = $file_upload["data"]["file_name"];
+			// print_r($file_upload);
+			$data['create_at'] = date("Y-m-d H:i:s");
+			$data['akses'] = $this->input->post('akses');
+			$data['status'] = $this->input->post('status');
+			$update = $this->App->update('tb_account', $data,$where);
+			if ($update) {
+				$this->session->set_flashdata('alert', 'success|<b>Success</b> Berhasil mengubah data user.');
+				redirect(base_url('/account/user'));
+			} else {
+				$this->session->set_flashdata('alert', 'danger|<b>Gagal</b> Gagal mengubah data user.');
+				redirect(base_url('/account/user'));
+			}
+		} else {
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['no_telp'] = $this->input->post('no_telp');
+			$data['alamat'] = $this->input->post('alamat');
+			$data['create_at'] = date("Y-m-d H:i:s");
+			$data['akses'] = $this->input->post('akses');
+			$data['status'] = $this->input->post('status');
+			$update = $this->App->update('tb_account', $data,$where);
+			if ($update) {
+				$this->session->set_flashdata('alert', 'success|<b>Success</b> Berhasil mengubah data user.');
+				redirect(base_url('/account/user'));
+			} else {
+				$this->session->set_flashdata('alert', 'danger|<b>Gagal</b> Gagal mengubah data user.');
+				redirect(base_url('/account/user'));
+			}
+		}
+	}
+
+	public function ack_delete()
+	{
+		$where['id'] = $this->input->post('id');
+		$delete = $this->App->delete('tb_account', $where);
+		if ($delete) {
+			$this->session->set_flashdata('alert', 'success|<b>Success</b> Berhasil hapus data user.');
+			redirect(base_url('/account/user'));
+		} else {
+			$this->session->set_flashdata('alert', 'danger|<b>Gagal</b> Gagal hapus data user.');
+			redirect(base_url('/account/user'));
+		}
 	}
 }

@@ -130,35 +130,13 @@
                             <div class="signupfields padded">
                                 <h2>Metode Pembayaran</h2>
                                 <hr class="my-2">
+                                <?php foreach($listmetode->result() as $rowmetode){?>
                                 <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="alfamart_otomatis" required/>
-                                    Alfamart (Cek Otomatis) <small>+ Biaya 5.000 ketika bayar di outlet</small>
+                                    <input type="radio" name="paymentmethod" value="<?php echo $rowmetode->code;?>" required/>
+                                    <?php echo $rowmetode->nama;?> <small><?php echo $rowmetode->deskripsi;?></small>
                                 </label>
                                 <br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="qris_otomatis" required/>
-                                    QRIS INSTAN (M-BCA,OVO,GoPay,ShopeePay,Linkaja)
-                                </label><br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="bri_otomatis" required/>
-                                    Bank BRI (Cek Otomatis)
-                                </label><br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="bni_otomatis" required/>
-                                    Bank BNI (Cek Otomatis)
-                                </label><br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="permata_otomatis" required/>
-                                    Bank Permata (Cek Otomatis)
-                                </label><br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="mandiri_otomatis" required/>
-                                    Bank Mandiri (Cek Otomatis)
-                                </label><br>
-                                <label class="radio-inline">
-                                    <input type="radio" name="paymentmethod" value="lain_otomatis" required/>
-                                    Bank Lainnya (Cek Otomatis)
-                                </label>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
