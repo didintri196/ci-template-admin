@@ -21,7 +21,6 @@ class C_dashboard extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->sessionlogin->cek_login();
 	}
 	public function index()
 	{

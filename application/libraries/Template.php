@@ -17,11 +17,4 @@ class Template
         $this->_ci->load->view('/theme_view.php', $data);
     }
 
-    function display_ui($template, $data = null)
-    {
-        $data['_body'] = $this->_ci->load->view($template, $data, true);
-        $data['_navbar'] = $this->_ci->load->view('theme_ui/navbar', $data, true);
-        $data['_footer'] = $this->_ci->load->view('theme_ui/footer', $data, true);
-        $this->_ci->load->view('/theme_ui.php', $data);
-    }
 }

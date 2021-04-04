@@ -23,7 +23,7 @@ date_default_timezone_set('Asia/Jakarta');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://britaincourse.local/';
+$config['base_url'] = 'http://localhost/eizin/';
 
 /*
 |--------------------------------------------------------------------------
@@ -380,7 +380,7 @@ $config['encryption_key'] = '';
 $config['sess_driver'] = 'database';
 $config['sess_cookie_name'] = 'X-Security';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = 'tb_sessions';//its your table name name
+$config['sess_save_path'] = 'sessions';//its your table name name
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 

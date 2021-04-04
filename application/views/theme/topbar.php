@@ -1,4 +1,3 @@
-<?php $session = $this->sessionlogin->get_session();?>
 <header class="topbar">
     <div class="topbar-left">
         <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
@@ -13,7 +12,7 @@
 
         <ul class="topbar-btns">
             <li class="dropdown">
-                <span class="topbar-btn" data-toggle="dropdown"><img class="avatar" src="<?php echo base_url(); ?>/assets/uploads/profile/<?php echo $session['url_pic'];?>" alt="<?php echo $session['nama_lengkap'];?>"></span>
+                <span class="topbar-btn" data-toggle="dropdown"><img class="avatar" src="<?php echo base_url(); ?>/assets/img/avatar/1.jpg" alt="Admin Kepegawaian"></span>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="<?php echo base_url(); ?>account/profile"><i class="ti-user"></i> Profile</a>
                     <div class="dropdown-divider"></div>
