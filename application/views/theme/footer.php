@@ -1,7 +1,7 @@
 <footer class="site-footer">
     <div class="row">
         <div class="col-md-6">
-            <p class="text-center text-md-left"><a href="http://thetheme.io/theadmin"><b>BRITAIN COURSE</b></a>. All rights reserved.</p>
+            <p class="text-center text-md-left"><a href="http://thetheme.io/theadmin"><b>Kejaksaan Negeri Kota Kediri</b></a>. All rights reserved.</p>
         </div>
 
         <div class="col-md-6">

@@ -77,6 +77,5 @@
 
         </ul>
         <div class="topbar-divider"></div>
-        <a class="btn btn-xs btn-round btn-success mr-2" href="/account/register-paket">Daftar Paket Kuyy</a>
     </div>
 </header>

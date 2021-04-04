@@ -22,8 +22,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
 
     <!-- Favicons -->
-    <link rel="apple-touch-icon" href="<?php echo base_url(); ?>assets/img/apple-touch-icon.png">
-    <link rel="icon" href="<?php echo base_url(); ?>assets/img/favicon.png">
+    <link rel="apple-touch-icon" href="http://kejari-kediri.go.id/wp-content/uploads/2015/08/favicon.png">
+    <link rel="icon" href="http://kejari-kediri.go.id/wp-content/uploads/2015/08/favicon.png">
 </head>
 
 <body class="pace-done">

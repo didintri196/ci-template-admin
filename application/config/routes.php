@@ -54,11 +54,11 @@ $route['default_controller'] = 'C_home';
 $route['admin'] = 'C_dashboard/redirect';
 $route['admin/dashboard'] = 'C_dashboard';
 
-$route['admin/kategori'] = 'C_kategori';
-$route['admin/kategori/add'] = 'C_kategori/ack_add';
-$route['admin/kategori/view/(.*)'] = 'C_kategori/ack_view/$1';
-$route['admin/kategori/update'] = 'C_kategori/ack_update';
-$route['admin/kategori/delete'] = 'C_kategori/ack_delete';
+$route['admin/jabatan'] = 'C_jabatan';
+$route['admin/jabatan/add'] = 'C_jabatan/ack_add';
+$route['admin/jabatan/view/(.*)'] = 'C_jabatan/ack_view/$1';
+$route['admin/jabatan/update'] = 'C_jabatan/ack_update';
+$route['admin/jabatan/delete'] = 'C_jabatan/ack_delete';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

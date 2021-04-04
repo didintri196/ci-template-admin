@@ -24,7 +24,7 @@
 
     <div class="card" style="border-radius: 10px;">
         <div class="card-body">
-            <h2>List Jadwal <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add Jadwal</button></h2>
+            <h2>List jabatan <button class="btn btn-warning btn-round" data-toggle="modal" data-target="#modal-add">Add jabatan</button></h2>
             <hr class="my-2">
 
             <div class="m-10">
@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Judul</td>
+                            <td>Nama</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -41,16 +41,15 @@
                         foreach ($listdata->result() as $row_data) { ?>
                             <tr>
                                 <td><?php echo $i; ?></td>
-                                <td><?php echo $row_data->judul; ?></td>
+                                <td><?php echo $row_data->nama; ?></td>
                                 <td>
-                                <a href="/account/jadwal/<?php echo $row_data->id; ?>/materi" class="btn btn-success btn-sm btn-round">List Materi</a>
-                                    <div class="btn-group ">
-                                        <button class="btn btn-info btn-sm btn-round dropdown-toggle" data-toggle="dropdown">Action</button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-edit" onclick="getview('<?php echo $row_data->id; ?>')"><i class="fa fa-edit"></i> Edit Data</a>
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-delete" onclick="deletenow('<?php echo $row_data->id; ?>')"><i class="fa fa-trash"></i> Delete Data</a>
-                                        </div>
+                                <div class="btn-group ">
+                                    <button class="btn btn-info btn-sm btn-round dropdown-toggle" data-toggle="dropdown">Action</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-edit" onclick="getview('<?php echo $row_data->id; ?>')"><i class="fa fa-edit"></i> Edit Data</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-delete" onclick="deletenow('<?php echo $row_data->id; ?>')"><i class="fa fa-trash"></i> Delete Data</a>
                                     </div>
+                                </div>
                                 </td>
                             </tr>
                         <?php $i++;
@@ -68,7 +67,7 @@
 <div class="modal modal-center fade" id="modal-add" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/jadwal/add" method="POST">
+            <form action="<?php echo base_url();?>admin/jabatan/add" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Tambah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -77,8 +76,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="judul">Judul</label>
-                        <input type="text" class="form-control" id="judul" name="judul" required>
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" id="nama" name="nama" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -94,7 +93,7 @@
 <div class="modal modal-center fade" id="modal-edit" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/jadwal/update" method="POST">
+            <form action="<?php echo base_url();?>admin/jabatan/update" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Ubah Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -107,8 +106,8 @@
                         <input type="text" class="form-control" id="id_update" name="id" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="judul_update">Judul</label>
-                        <input type="text" class="form-control" id="judul_update" name="judul" required>
+                        <label for="nama_update">Nama</label>
+                        <input type="text" class="form-control" id="nama_update" name="nama" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,7 +124,7 @@
 <div class="modal modal-center fade" id="modal-delete" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content" style="border-radius: 10px;">
-            <form action="/account/jadwal/delete" method="POST">
+            <form action="<?php echo base_url();?>admin/jabatan/delete" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Delete Data</h5>
                     <button type="button" class="close" data-dismiss="modal">
@@ -146,16 +145,16 @@
 </div>
 
 <script>
-function getview(id){
-    $.getJSON("/account/jadwal/view/"+id, function (data) {
-    // console.log(data);
-    $("#id_update").val(data.id);
-    $("#judul_update").val(data.judul);
-  });
-}
+    function getview(id) {
+        $.getJSON("<?php echo base_url();?>admin/jabatan/view/" + id, function(data) {
+            // console.log(data);
+            $("#id_update").val(data.id);
+            $("#nama_update").val(data.nama);
+        });
+    }
 
-function deletenow(id){
-    $("#id_delete").val(id);
-    $("#id_delete_display").html(id);
-}
+    function deletenow(id) {
+        $("#id_delete").val(id);
+        $("#id_delete_display").html(id);
+    }
 </script>

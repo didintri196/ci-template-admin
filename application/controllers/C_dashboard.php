@@ -24,7 +24,7 @@ class C_dashboard extends CI_Controller {
 	}
 	public function index()
 	{
-		$view['_title']="Dashboard &mdash; Britain Kampung Inggris";
+		$view['_title']="Dashboard &mdash; E-izin Kejari Kota Kediri";
 		$this->template->display_theme('pages/V_body',$view);
 	}
 	public function redirect(){
